@@ -28,8 +28,10 @@ public class AES {
         */
     
     public static void main(String[] args) throws IOException {
+        /* Recupera a chave armazenada no arquivo "AES - Chave.txt" */
         String chave = recuperarValorMsg("AES - Chave");
         System.out.println("Chave: "+chave);
+        
         SecretKey key = new SecretKeySpec(chave.getBytes(), "AES"); 
         
         
