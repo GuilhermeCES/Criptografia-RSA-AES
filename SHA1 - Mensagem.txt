@@ -1,0 +1,1 @@
+Mensagem de exemplo utilizada para o processamento do Algoritmo SHA1 (Secure Hash Algorithm-1) criado no projeto.
