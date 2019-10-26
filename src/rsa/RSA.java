@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Scanner;
+import editor.Editor;
 
 /**
  *
@@ -19,11 +20,11 @@ public class RSA {
         /*
         
         A princípio, para o funcionamento correto do projeto, é necessário um arquivo
-        nomeado de "Mensagem.txt" na pasta padrão do projeto, dentro deste arquivo é inserido a mensagem
+        nomeado de "RSA - Mensagem.txt" na pasta padrão do projeto, dentro deste arquivo é inserido a mensagem
         que se deseja criptografar.
         Todas as chaves também serão armazenadas em arquivos txt na pasta padrão do projeto, com seus
         respectivos nomes.
-        Exemplo: "p.txt" para o valor p.
+        Exemplo: "RSA - p.txt" para o valor p.
         
         */
 
@@ -35,7 +36,7 @@ public class RSA {
         Menu simples para a execução do projeto abaixo, com os respectivos valores:
         
         1 - Gerar as chaves através de números primos também gerados automaticamente.
-        2 - Criptografar a mensagem no arquivo "Mensagem.txt".
+        2 - Criptografar a mensagem no arquivo "RSA - Mensagem.txt".
         3 - Descriptografar a mensagem no arquivo "Mensagem Criptografada.txt" gerado após o processo de
         criptogração.
         4 - Executar o processo completo desde o início.
@@ -86,11 +87,11 @@ public class RSA {
             /* Informa os valores */
             System.out.println("p:"+p+"\nq:"+q+"\nn:"+n+"\ne:"+e+"\nd:"+d);            
             /* Salva os valores em seus respectivos arquivos .txt. */
-            anotar("p",p);
-            anotar("q",q);
-            anotar("n",n);
-            anotar("e",e);
-            anotar("d",d);
+            Editor.anotar("RSA - p",p);
+            Editor.anotar("RSA - q",q);
+            Editor.anotar("RSA - n",n);
+            Editor.anotar("RSA - e",e);
+            Editor.anotar("RSA - d",d);
 
             
         }
@@ -105,70 +106,18 @@ public class RSA {
             /* Mensagem criptografada - RSA_encrypt()
                As funções "recuperarValorMsg" e "recuperarValor" leem os respectivos arquivos txt
                informados no parâmetro e retornam seu valor */
-            String msg = recuperarValorMsg("Mensagem");
-            String msgcrip = new BigInteger(msg.getBytes()).modPow(recuperarValor("e"), recuperarValor("n")).toString();
+            String msg = Editor.recuperarValorMsg("RSA - Mensagem");
+            String msgcrip = new BigInteger(msg.getBytes()).modPow(Editor.recuperarValor("RSA - e"), Editor.recuperarValor("RSA - n")).toString();
             System.out.println("Mensagem criptografada: "+ msgcrip);
             
             /* Chama a função para salvar a mensagem criptografada no arquivo "RSA - Mensagem criptografada.txt" */
-            anotarMsg("RSA - Mensagem criptografada",msgcrip);
+            Editor.anotarMsg("RSA - Mensagem criptografada",msgcrip);
         }
         
         public static void decripMsg(){
             /* Mensagem descriptografada - RSA_decrypt() */
-            String msgdescrip = new String(new BigInteger(recuperarValorMsg("RSA - Mensagem criptografada")).modPow(recuperarValor("d"), recuperarValor("n")).toByteArray());
+            String msgdescrip = new String(new BigInteger(Editor.recuperarValorMsg("RSA - Mensagem criptografada")).modPow(Editor.recuperarValor("RSA - d"), Editor.recuperarValor("RSA - n")).toByteArray());
             System.out.println("Mensagem descriptografada: " +msgdescrip); 
-        }
-        
-        /* Função especializada em salvar o valor de um BigInteger em um txt com nome informado pelo
-           parâmetro "filename" */
-        public static void anotar(String filename, BigInteger n) throws IOException{
-            String path = filename+".txt";
-            BufferedWriter buffWrite = new BufferedWriter(new FileWriter(path));
-            buffWrite.append(n.toString());
-            buffWrite.close();
-        }
-        
-        /* Função anterior, porém para salvar o valor de uma String em um txt */
-        public static void anotarMsg(String filename, String msg) throws IOException{
-            String path = filename+".txt";
-            BufferedWriter buffWrite = new BufferedWriter(new FileWriter(path));
-            buffWrite.append(msg);
-            buffWrite.close();
-        }        
-
-        /* Função especializada em recuperar o valor de um BigInteger em um txt com nome informado pelo
-           parâmetro "filename" */
-        public static BigInteger recuperarValor(String filename){
-            BigInteger bigIntegerStr = null;
-            try {
-                Scanner scanner = new Scanner(new File(filename+".txt"));
-                String leitor=null;
-                while (scanner.hasNext()) {
-                    leitor = scanner.nextLine();				
-                }
-                bigIntegerStr=new BigInteger(leitor);
-                scanner.close();
-                return bigIntegerStr;
-                }catch (IOException e) {
-                    e.printStackTrace();
-                }
-            return bigIntegerStr;
-        }
-
-        /* Função anterior, porém para recuperar o valor de uma String em um txt */
-        public static String recuperarValorMsg(String filename){
-            String leitor=null;
-            try {
-                Scanner scanner = new Scanner(new File(filename+".txt"));    
-                while (scanner.hasNext()) {
-                    leitor = scanner.nextLine();				
-                }
-                scanner.close();
-                return leitor;
-                }catch (IOException e) {
-                    e.printStackTrace();
-                }
-            return leitor;
         }
         
 }

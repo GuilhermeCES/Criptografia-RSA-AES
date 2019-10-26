@@ -8,6 +8,7 @@ import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.util.Scanner;
+import editor.Editor;
 
 /**
  *
@@ -18,7 +19,7 @@ public class AES {
         /*
         
         A princípio, para o funcionamento correto, é necessário um arquivo
-        nomeado de "Mensagem.txt" na pasta padrão do projeto, dentro deste arquivo é inserido a mensagem
+        nomeado de "AES - Mensagem.txt" na pasta padrão do projeto, dentro deste arquivo é inserido a mensagem
         que se deseja criptografar.
         A chave também deve ser informada em um arquivo de texto, chamado de "AES - Chave.txt" onde
         o tamanho da chave deve ser entre:
@@ -29,7 +30,7 @@ public class AES {
     
     public static void main(String[] args) throws IOException {
         /* Recupera a chave armazenada no arquivo "AES - Chave.txt" */
-        String chave = recuperarValorMsg("AES - Chave");
+        String chave = Editor.recuperarValorMsg("AES - Chave");
         System.out.println("Chave: "+chave);
         
         SecretKey key = new SecretKeySpec(chave.getBytes(), "AES"); 
@@ -39,15 +40,15 @@ public class AES {
             Cipher cipher = Cipher.getInstance("AES");
 
             cipher.init(Cipher.ENCRYPT_MODE, key);	 	 
-            /* Recupera a mensagem a ser criptografada no arquivo "Mensagem.txt" */
-            String msg = recuperarValorMsg("Mensagem");	 	 
+            /* Recupera a mensagem a ser criptografada no arquivo "AES - Mensagem.txt" */
+            String msg = Editor.recuperarValorMsg("AES - Mensagem");	 	 
             /* Criptografa a mensagem */	 	 
             byte[] msgcrip = cipher.doFinal(msg.getBytes());
             /* Salva a mensagem criptografada em seu respectivo txt */
-            anotarMsg("AES - Mensagem criptografada",msgcrip.toString());
+            Editor.anotarMsg("AES - Mensagem criptografada",msgcrip.toString());
             
             /* Exibe a mensagem criptografada salva */	 	 
-            System.out.println("Mensagem criptografada: "+ recuperarValorMsg("AES - Mensagem criptografada"));
+            System.out.println("Mensagem criptografada: "+ Editor.recuperarValorMsg("AES - Mensagem criptografada"));
             /* Informa ação de descriptografar */	 	 
             cipher.init(Cipher.DECRYPT_MODE, key);	 	 
             /* Recebe a mensagem criptografada e descriptografa */
@@ -64,32 +65,4 @@ public class AES {
         
         
     }
-
-
-    
-    //Função especializada em armazenar o valor em um txt
-    public static void anotarMsg(String filename, String msg) throws IOException{
-        String path = filename+".txt";
-        BufferedWriter buffWrite = new BufferedWriter(new FileWriter(path));
-        buffWrite.append(msg);
-        buffWrite.close();
-    } 
-    
-    //Função especializada em recuperar o valor de uma String em um txt
-    public static String recuperarValorMsg(String filename){
-        String leitor=null;
-        try {
-            Scanner scanner = new Scanner(new File(filename+".txt"));    
-            while (scanner.hasNext()) {
-                leitor = scanner.nextLine();				
-            }
-            scanner.close();
-            return leitor;
-            }catch (IOException e) {
-                e.printStackTrace();
-            }
-        return leitor;
-    }
-    
-    
 }
