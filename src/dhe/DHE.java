@@ -10,9 +10,7 @@ import editor.Editor;
 class DHE
 {
  public static void main(String args[]) throws IOException
- {
- BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
-        
+ {       
         //Módulo p público sendo um número primo escolhido entre os dois usuários
         BigInteger p = Editor.recuperarValor("DHE - p");
         System.out.println("Leitura do número primo escolhido para calcular o módulo: "+ p);
