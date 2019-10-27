@@ -15,16 +15,16 @@ public class SHA1 {
 		
 		try {
                 //MessageDigest sendo utilizado para selecionar a implementação SHA1 que será utilizada
-                    MessageDigest digest = MessageDigest.getInstance("SHA-1");
-	        //Digest sendo resetado antes de iniciar o trabalho para evitar problemas
-                    digest.reset();
+                    MessageDigest algoritmo = MessageDigest.getInstance("SHA-1");
+	        //reset antes de iniciar o trabalho para evitar problemas
+                    algoritmo.reset();
 	        
                 //Input da string sendo armazenado no algoritmo como byte array, preparando a base do algoritmo
-                    digest.update(mensagem.getBytes("utf8"));
+                    algoritmo.update(mensagem.getBytes("utf8"));
 	        
                 //string em sha1 sendo criada, seguindo formato hexadecimal e aplicando o valor da string após
-                //o método digest retornar um byte array que o algaritmo sha trabalhou com a string original
-                    sha1 = String.format("%040x", new BigInteger(1, digest.digest()));
+                //o método digest retornar um byte array que o algoritmo sha trabalhou com a string original
+                    sha1 = String.format("%040x", new BigInteger(1, algoritmo.digest()));
 		} catch (Exception e){
 			e.printStackTrace();
 		}
